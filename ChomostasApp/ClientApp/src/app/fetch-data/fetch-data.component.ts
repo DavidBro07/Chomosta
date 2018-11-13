@@ -7,11 +7,18 @@ import { HttpClient } from '@angular/common/http';
 })
 export class FetchDataComponent {
   public forecasts: WeatherForecast[];
+  public tablaPrueba: TablaPrueba;
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     http.get<WeatherForecast[]>(baseUrl + 'api/SampleData/WeatherForecasts').subscribe(result => {
       this.forecasts = result;
     }, error => console.error(error));
+
+    http.get<TablaPrueba[]>(baseUrl + 'api/SampleData/metodoPrueba').subscribe(result => {
+      console.log(result[0]);
+      this.tablaPrueba = result[0];
+    }, error => console.error(error));
+
   }
 }
 
@@ -20,4 +27,10 @@ interface WeatherForecast {
   temperatureC: number;
   temperatureF: number;
   summary: string;
+}
+
+interface TablaPrueba {
+  jefitaID: number;
+  jefita: string;
+  tieneEstetica: boolean;
 }

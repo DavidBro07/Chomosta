@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ChomostasApp.DB.Context;
+using ChomostasApp.DB.DAO.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChomostasApp.Controllers
@@ -9,6 +11,13 @@ namespace ChomostasApp.Controllers
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
+        private ITablaPruebaDAO tablaPruebaDao;
+
+        public SampleDataController(ITablaPruebaDAO tablaPruebaDAO)
+        {
+            this.tablaPruebaDao = tablaPruebaDAO;
+        }
+
         private static string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -24,6 +33,12 @@ namespace ChomostasApp.Controllers
                 TemperatureC = rng.Next(-20, 55),
                 Summary = Summaries[rng.Next(Summaries.Length)]
             });
+        }
+
+        [HttpGet("[action]")]
+        public IEnumerable<TablaPrueba> MetodoPrueba()
+        {
+            return tablaPruebaDao.findAll();
         }
 
         public class WeatherForecast
