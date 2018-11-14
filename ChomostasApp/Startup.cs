@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using ChomostasApp.DB.DAO.Interfaces;
 using ChomostasApp.DB.DAO;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace ChomostasApp
 {
@@ -31,8 +32,15 @@ namespace ChomostasApp
             );
 
             services.AddHttpClient();
-
+            
+            services.AddTransient<IBaseDao, BaseDao>();
             services.AddTransient<ITablaPruebaDAO, TablaPruebaDAO>();
+            
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Chomosta App", Version = "v1" });
+            });
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -75,6 +83,17 @@ namespace ChomostasApp
                 {
                     spa.UseAngularCliServer(npmScript: "start");
                 }
+            });
+
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
+            // specifying the Swagger JSON endpoint.
+            
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                //c.RoutePrefix = string.Empty;
             });
         }
     }

@@ -14,7 +14,7 @@ export class FetchDataComponent {
       this.forecasts = result;
     }, error => console.error(error));
 
-    http.get<TablaPrueba[]>(baseUrl + 'api/SampleData/metodoPrueba').subscribe(result => {
+    http.get<TablaPrueba[]>(baseUrl + 'api/SampleData/MetodoPrueba').subscribe(result => {
       console.log(result[0]);
       this.tablaPrueba = result[0];
     }, error => console.error(error));
