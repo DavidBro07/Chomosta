@@ -7,22 +7,12 @@ namespace ChomostasApp.DB.Context
 {
     public partial class ChomostaAppContext : DbContext
     {
-        /*
         private IConfiguration configuration;
-        public ChomostaAppContext(IConfiguration configuration)
-        {
-            this.configuration = configuration;
-        }
-        */
 
-        public ChomostaAppContext()
-        {
-
-        }
-
-        public ChomostaAppContext(DbContextOptions<ChomostaAppContext> options)
+        public ChomostaAppContext(DbContextOptions<ChomostaAppContext> options, IConfiguration configuration)
             : base(options)
         {
+            this.configuration = configuration;
         }
 
         public virtual DbSet<TablaPrueba> TablaPrueba { get; set; }
@@ -32,7 +22,8 @@ namespace ChomostasApp.DB.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=tcp:chomostadb.database.windows.net,1433;Initial Catalog=ChomostaApp;Persist Security Info=False;User ID=chomostaadmin;Password=chomosta_123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                //optionsBuilder.UseSqlServer("Server=tcp:chomostadb.database.windows.net,1433;Initial Catalog=ChomostaApp;Persist Security Info=False;User ID=chomostaadmin;Password=chomosta_123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             }
         }
 
